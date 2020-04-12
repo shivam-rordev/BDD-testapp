@@ -1,24 +1,16 @@
 version: v1.0
-name: Test MyApp
+name: Initial Pipeline
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Test
+  - name: 'Block #1'
     task:
-      env_vars:
-        - name: DATABASE_URL
-          value: 'postgresql://postgres:@0.0.0.0:5432/myapp_test'
-        - name: RAILS_ENV
-          value: test
       jobs:
         - name: 'Job #1'
           commands:
-            - 'checkout '
-            - bundle install --deployment --path vendor/bundle
-            - 'bundle exec rake:db:test:prepare'
-        - name: 'Job #2'
-          commands:
             - checkout
+            - 'sem-version ruby 2.4.1p111 # Copy this command'
+            - bundle install
             - bundle exec rspec
